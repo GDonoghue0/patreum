@@ -2,10 +2,11 @@ import styled from 'styled-components/macro'
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ethers } from "ethers";
-import { Web3ReactProvider } from '@web3-react/core'
+// import { Web3ReactProvider } from '@web3-react/core'
+import { initializeConnector } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
-import { useWeb3React } from '@web3-react/core'
-import { InjectedConnector } from '@web3-react/injected-connector'
+// import { useWeb3React } from '@web3-react/core'
+import { MetaMask } from '@web3-react/metamask'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -36,25 +37,27 @@ const HeaderLinks = styled.div`
 `
 
 const HeaderControls = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-self: flex-end;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-self: flex-end;
 `
 
 const HeaderElement = styled.div`
-    display: flex;
-    align-items: center;
-    &:not(:first-child) {
-        margin-left: 0.5em;
-    }
+  display: flex;
+  align-items: center;
+  &:not(:first-child) {
+      margin-left: 0.5em;
+  }
 `
 
 declare let window: any;
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 console.log(provider);
 
-const MetaMask = new InjectedConnector({ supportedChainIds: [1, 3] })
+// const metaMask = new MetaMask({ supportedChainIds: [1, 3] })
+export const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions))
+
 
 function getLibrary(provider: any): Web3Provider {
   const library = new Web3Provider(provider)
@@ -66,7 +69,7 @@ export const Wallet = () => {
   const { chainId, account, activate, active } = useWeb3React<Web3Provider>()
 
   const onClick = () => {
-    activate(MetaMask)
+    activate(metaMask)
   }
 
   return (
