@@ -1,4 +1,6 @@
 import styled from 'styled-components/macro'
+import { BigNumber } from '@ethersproject/bignumber'
+import { formatEther } from '@ethersproject/units'
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ethers } from "ethers";
@@ -6,16 +8,15 @@ import { Web3ReactHooks } from '@web3-react/core'
 import { initializeConnector } from '@web3-react/core'
 import type { Connector } from '@web3-react/types'
 import { Web3Provider } from '@ethersproject/providers'
-// import { useWeb3React } from '@web3-react/core'
 import { MetaMask } from '@web3-react/metamask'
 
 const HeaderFrame = styled.div`
   display: grid;
-  grid-template-columns: 120px 1fr 120px;
+  grid-template-columns: 120px 0.5fr 150px;
   align-items: center;
   justify-content: center;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   top: 0;
   position: center;
@@ -52,15 +53,7 @@ const HeaderElement = styled.div`
   }
 `
 
-// declare let window: any;
-// const provider = new ethers.providers.Web3Provider(window.ethereum as any)
-// console.log(provider);
-
-// function Status({connector, hooks: { useChainId, useAccounts, useError }}: {connector: Connector, hooks: Web3ReactHooks})
-
-// const metaMask = new MetaMask({ supportedChainIds: [1, 3] })
-export const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions))
-console.log(hooks);
+const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions));
 
 function Status({
   connector,
@@ -92,40 +85,59 @@ function Status({
   )
 }
 
+function useBalances(
+  provider?: ReturnType<Web3ReactHooks['useProvider']>,
+  accounts?: string[]
+): BigNumber[] | undefined {
+  const [balances, setBalances] = useState<BigNumber[] | undefined>()
 
-// export const Wallet = () => {
-//   const { chainId, account, activate, active } = hooks
+  useEffect(() => {
+    if (provider && accounts?.length) {
+      let stale = false
 
-//   const onClick = () => {
-//     activate(metaMask)
-//   }
+      void Promise.all(accounts.map((account) => provider.getBalance(account))).then((balances) => {
+        if (!stale) {
+          setBalances(balances)
+        }
+      })
 
-//   return (
-//     <div>
-//       <div>ChainId: {chainId}</div>
-//       <div>Account: {account}</div>
-//       {active ? (<div></div>) : (
-//         <button type="button" onClick={onClick}>
-//           Connect
-//         </button>
-//       )}
-//     </div>
-//   )
-// }
+      return () => {
+        stale = true
+        setBalances(undefined)
+      }
+    }
+  }, [provider, accounts])
+
+  return balances
+}
+
+function Accounts({
+  useAnyNetwork,
+  hooks: { useAccounts, useProvider, useENSNames },
+}: {
+  useAnyNetwork: boolean
+  hooks: Web3ReactHooks
+}) {
+  const provider = useProvider(useAnyNetwork ? 'any' : undefined)
+  const accounts = useAccounts()
+  const ENSNames = useENSNames(provider)
+
+  const balances = useBalances(provider, accounts)
+
+  return (
+    <div>
+      Accounts:
+      {accounts === undefined ? ' -' : accounts.length === 0 ? ' None' : accounts?.map((account, i) => (
+        <ul key={account} style={{ margin: 0, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <b>{ENSNames?.[i] ?? account}</b>
+          {balances?.[i] ? ` (Ξ${formatEther(balances[i])})` : null}
+        </ul>
+      ))}
+    </div>
+  )
+}
 
 export default function Header() {
-  // const [blockNumber, setBlockNumber] = useState<number>(0);
-
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     async function getBlockNumber() {
-  //       const bn = await provider.getBlockNumber();
-  //       setBlockNumber(bn)
-  //     }
-  //     getBlockNumber();
-  //   }, 12000)
-  // }, [blockNumber])
-
   return (
     <HeaderFrame>
       <HeaderLinks>
@@ -140,6 +152,8 @@ export default function Header() {
       </HeaderControls>
       <div>
         <Status connector={metaMask} hooks={hooks}/>
+        <br />
+        <Accounts useAnyNetwork={true} hooks={hooks} />
       </div>
     </HeaderFrame>
   )
