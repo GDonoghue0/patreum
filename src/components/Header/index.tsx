@@ -3,16 +3,16 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { formatEther } from '@ethersproject/units'
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 import { Web3ReactHooks } from '@web3-react/core'
 import { initializeConnector } from '@web3-react/core'
 import type { Connector } from '@web3-react/types'
-import { Web3Provider } from '@ethersproject/providers'
+// import { Web3Provider } from '@ethersproject/providers'
 import { MetaMask } from '@web3-react/metamask'
 
 const HeaderFrame = styled.div`
   display: grid;
-  grid-template-columns: 120px 0.5fr 150px;
+  grid-template-columns: 120px 120px 120px;
   align-items: center;
   justify-content: center;
   align-items: center;
@@ -77,7 +77,7 @@ function Status({
           🛑 {error.name ?? 'Error'}: {error.message}
         </>
       ) : connected ? (
-        <>✅ Connected</>
+        <Accounts useAnyNetwork={true} hooks={hooks}/>
       ) : (
         <>⚠️ Disconnected</>
       )}
@@ -126,13 +126,9 @@ function Accounts({
 
   return (
     <div>
-      Accounts:
-      {accounts === undefined ? ' -' : accounts.length === 0 ? ' None' : accounts?.map((account, i) => (
-        <ul key={account} style={{ margin: 0, overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          <b>{ENSNames?.[i] ?? account}</b>
-          {balances?.[i] ? ` (Ξ${formatEther(balances[i])})` : null}
-        </ul>
-      ))}
+      <b>{ENSNames?.[0] ?? accounts?.[0]}</b>
+      <br/>
+      {balances?.[0] ? ` (Ξ${formatEther(balances[0])})` : null}
     </div>
   )
 }
@@ -147,13 +143,11 @@ export default function Header() {
 
       <HeaderControls>
         <HeaderElement>
-          {/*blockNumber*/}
+          {/*{"Hello"}*/}
         </HeaderElement>
       </HeaderControls>
       <div>
         <Status connector={metaMask} hooks={hooks}/>
-        <br />
-        <Accounts useAnyNetwork={true} hooks={hooks} />
       </div>
     </HeaderFrame>
   )
