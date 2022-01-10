@@ -20,7 +20,7 @@ const HeaderContainer = styled.div<{isMenuOpen: boolean}>`
   align-items: center;
   justify-content: center;
   top: 0;
-  border-bottom: 1px solid $${({ theme }) => theme.colors.border};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   @media (max-width: ${768}px) {
     padding: 16px 24px;
     border-bottom: none;
