@@ -21,3 +21,11 @@ export const BrowseView = () => {
         </BasicView>
     )
 }
+
+export const OtherView = () => {
+    return (
+        <BasicView>
+            <div>Other</div>
+        </BasicView>
+    )
+}
