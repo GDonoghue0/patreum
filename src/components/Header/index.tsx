@@ -9,21 +9,76 @@ import { initializeConnector } from '@web3-react/core'
 import type { Connector } from '@web3-react/types'
 // import { Web3Provider } from '@ethersproject/providers'
 import { MetaMask } from '@web3-react/metamask'
+import useTheme from '../../hooks/useTheme'
 
-const HeaderFrame = styled.div`
+
+const HeaderContainer = styled.div<{isMenuOpen: boolean}>`
+  height: ${({theme}) => theme.header.height}px;
+  position: sticky;
   display: grid;
-  grid-template-columns: 120px 120px 120px;
+  grid-template-columns: 120px 0.5fr 120px;
   align-items: center;
   justify-content: center;
+  top: 0;
+  border-bottom: 1px solid $${({ theme }) => theme.colors.border};
+  @media (max-width: ${768}px) {
+    padding: 16px 24px;
+    border-bottom: none;
+  }
+  z-index: ${(props) => (props.isMenuOpen ? 50 : 10)};
+  // The backdrop for the menu does not show up if we enable the backdrop-filter
+  // for the header nav. To get around that, just set 'none'
+  ${(props) => {
+    if (props.isMenuOpen) {
+      return null;
+    }
+    return `
+      backdrop-filter: blur(40px);
+      /**
+       * Firefox desktop come with default flag to have backdrop-filter disabled
+       * Firefox Android also currently has bug where backdrop-filter is not being applied
+       * More info: https://bugzilla.mozilla.org/show_bug.cgi?id=1178765
+       **/
+      @-moz-document url-prefix() {
+        background-color: rgba(0, 0, 0, 0.9);
+      }
+    `;
+  }}
+`;
+
+const HeaderFrame = styled.div<{ showBackground: boolean }>`
+  display: grid;
+  grid-template-columns: 120px 1fr 120px;
   align-items: center;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
   width: 100%;
   top: 0;
-  position: center;
+  position: relative;
   padding: 1rem;
   z-index: 21;
-  position: center;
+  position: relative;
+  /* Background slide effect on scroll. */
+  background-image: ${({ theme }) => `linear-gradient(to bottom, transparent 50%, ${theme.bg0} 50% )}}`};
+  background-position: ${({ showBackground }) => (showBackground ? '0 -100%' : '0 0')};
+  background-size: 100% 200%;
+  box-shadow: 0px 0px 0px 1px ${({ theme, showBackground }) => (showBackground ? theme.bg2 : 'transparent;')};
+  transition: background-position 0.1s, box-shadow 0.1s;
+  background-blend-mode: hard-light;
 `
+//   ${({ theme }) => theme.mediaWidth.upToLarge`
+//     grid-template-columns: 48px 1fr 1fr;
+//   `};
+//   ${({ theme }) => theme.mediaWidth.upToMedium`
+//     padding:  1rem;
+//     grid-template-columns: 1fr 1fr;
+//   `};
+//   ${({ theme }) => theme.mediaWidth.upToSmall`
+//     padding:  1rem;
+//     grid-template-columns: 36px 1fr;
+//   `};
+// `
 
 const HeaderLinks = styled.div`
   justify-self: center;
@@ -133,9 +188,20 @@ function Accounts({
   )
 }
 
+
+
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const onToggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const theme = useTheme();
+  console.log(theme);
+
   return (
-    <HeaderFrame>
+    <HeaderContainer isMenuOpen={isMenuOpen}>
       <HeaderLinks>
         <NavLink id={'home'} to={'/'}>Home</NavLink>
         <NavLink id={'login'} to={'/login'}>Login</NavLink>
@@ -149,6 +215,6 @@ export default function Header() {
       <div>
         <Status connector={metaMask} hooks={hooks}/>
       </div>
-    </HeaderFrame>
+    </HeaderContainer>
   )
 }
