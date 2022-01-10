@@ -3,17 +3,16 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { formatEther } from '@ethersproject/units'
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-// import { ethers } from "ethers";
 import { Web3ReactHooks } from '@web3-react/core'
 import { initializeConnector } from '@web3-react/core'
 import type { Connector } from '@web3-react/types'
-// import { Web3Provider } from '@ethersproject/providers'
 import { MetaMask } from '@web3-react/metamask'
 import useTheme from '../../hooks/useTheme'
 
 
 const HeaderContainer = styled.div<{isMenuOpen: boolean}>`
   height: ${({theme}) => theme.header.height}px;
+  background-color: ${({ theme }) => theme.colors.bg5};
   position: sticky;
   display: grid;
   grid-template-columns: 120px 0.5fr 120px;
@@ -67,24 +66,13 @@ const HeaderFrame = styled.div<{ showBackground: boolean }>`
   transition: background-position 0.1s, box-shadow 0.1s;
   background-blend-mode: hard-light;
 `
-//   ${({ theme }) => theme.mediaWidth.upToLarge`
-//     grid-template-columns: 48px 1fr 1fr;
-//   `};
-//   ${({ theme }) => theme.mediaWidth.upToMedium`
-//     padding:  1rem;
-//     grid-template-columns: 1fr 1fr;
-//   `};
-//   ${({ theme }) => theme.mediaWidth.upToSmall`
-//     padding:  1rem;
-//     grid-template-columns: 36px 1fr;
-//   `};
-// `
 
 const HeaderLinks = styled.div`
   justify-self: center;
-  /*background-color: ${({ theme }) => theme.bg0};*/
+  background-color: ${({ theme }) => theme.colors.bg4};
+  border: 1px solid ${({ theme }) => theme.colors.bg0};
   width: fit-content;
-  padding: 4px;
+  padding: 8px;
   border-radius: 16px;
   display: grid;
   grid-auto-flow: column;
@@ -188,8 +176,6 @@ function Accounts({
   )
 }
 
-
-
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -198,7 +184,7 @@ export default function Header() {
   };
 
   const theme = useTheme();
-  console.log(theme);
+  console.log(theme.colors.bg0)
 
   return (
     <HeaderContainer isMenuOpen={isMenuOpen}>

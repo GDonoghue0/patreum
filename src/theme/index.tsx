@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import styled, {ThemeProvider as StyledComponentsThemeProvider} from 'styled-components/macro';
+import styled, {DefaultTheme, ThemeProvider as StyledComponentsThemeProvider} from 'styled-components/macro';
 
 function colorsOriginal(darkMode: boolean) {
   return {
@@ -55,7 +55,7 @@ function colorsOriginal(darkMode: boolean) {
   };
 }
 
-function theme(darkMode: boolean) {
+function theme(darkMode: boolean): DefaultTheme {
   return {
     ...colorsOriginal(darkMode),
     colors: {
@@ -65,6 +65,13 @@ function theme(darkMode: boolean) {
         three: "#1C1C22",
         four: "#26262B",
       },
+      bg0: darkMode ? '#191B1F' : '#FFF',
+      bg1: darkMode ? '#212429' : '#F7F8FA',
+      bg2: darkMode ? '#2C2F36' : '#EDEEF2',
+      bg3: darkMode ? '#40444F' : '#CED0D9',
+      bg4: darkMode ? '#565A69' : '#888D9B',
+      bg5: darkMode ? '#6C7284' : '#888D9B',
+      bg6: darkMode ? '#1A2028' : '#6C7284',
       borderDark: "#1F1F1F",
       border: "#1C1C22",
       borderLight: "#2E2C2B",
