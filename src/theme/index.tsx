@@ -65,6 +65,7 @@ function theme(darkMode: boolean): DefaultTheme {
         three: "#1C1C22",
         four: "#26262B",
       },
+
       bg0: darkMode ? '#191B1F' : '#FFF',
       bg1: darkMode ? '#212429' : '#F7F8FA',
       bg2: darkMode ? '#2C2F36' : '#EDEEF2',
@@ -72,6 +73,13 @@ function theme(darkMode: boolean): DefaultTheme {
       bg4: darkMode ? '#565A69' : '#888D9B',
       bg5: darkMode ? '#6C7284' : '#888D9B',
       bg6: darkMode ? '#1A2028' : '#6C7284',
+
+      text1: darkMode ? '#FFFFFF' : '#000000',
+      text2: darkMode ? '#C3C5CB' : '#565A69',
+      text3: darkMode ? '#8F96AC' : '#6E727D',
+      text4: darkMode ? '#B2B9D2' : '#C3C5CB',
+      text5: darkMode ? '#2C2F36' : '#EDEEF2',
+
       borderDark: "#1F1F1F",
       border: "#1C1C22",
       borderLight: "#2E2C2B",

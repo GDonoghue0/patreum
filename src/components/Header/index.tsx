@@ -9,6 +9,7 @@ import type { Connector } from '@web3-react/types'
 import { MetaMask } from '@web3-react/metamask'
 import useTheme from '../../hooks/useTheme'
 
+import {ReactComponent as Logo} from "../logo.svg";
 
 const HeaderContainer = styled.div<{isMenuOpen: boolean}>`
   height: ${({theme}) => theme.header.height}px;
@@ -95,6 +96,55 @@ const HeaderElement = styled.div`
       margin-left: 0.5em;
   }
 `
+
+const StyledNavLink = styled(NavLink)` // Add CSS for hover and active
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: left;
+  border-radius: 3rem;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: ${({ theme }) => theme.text1};
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  word-break: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+  width: fit-content;
+  :hover {
+    opacity: 0.5,
+  },
+  :focus {
+    color: ${({ theme }) => theme.text1};
+  }
+`
+
+const LogoIcon = styled.div`
+  transition: transform 0.3s ease;
+  :hover {
+    transform: rotate(-5deg);
+  }
+  position: relative;
+`
+
+const LogoContainer = styled.div`
+  display: flex;
+  border-radius: 48px;
+`;
+
+// const HeaderLogo = () => {
+//   return (
+//     <>
+//       <LogoContainer>
+//         <NavLink to="/">
+//           <img src={logo} className="App-logo" alt="logo" height="40px" />
+//         </NavLink>
+//       </LogoContainer>
+//     </>
+//   );
+// };
 
 const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions));
 
@@ -184,13 +234,16 @@ export default function Header() {
   };
 
   const theme = useTheme();
-  console.log(theme.colors.bg0)
+  console.log(theme);
 
   return (
     <HeaderContainer isMenuOpen={isMenuOpen}>
+       {/*<LogoIcon>*/}
+          {/*<Logo fill="#000" width="24px" height="100%" title="logo" />*/}
+        {/*</LogoIcon>*/}
       <HeaderLinks>
-        <NavLink id={'home'} to={'/'}>Home</NavLink>
-        <NavLink id={'login'} to={'/login'}>Login</NavLink>
+        <StyledNavLink id={'home'} to={'/'}>Home</StyledNavLink>
+        <StyledNavLink id={'browse'} to={'/browse'}>Browse</StyledNavLink>
       </HeaderLinks>
 
       <HeaderControls>

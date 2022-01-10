@@ -14,10 +14,10 @@ export const HomeView = () => {
     )
 }
 
-export const LoginView = () => {
+export const BrowseView = () => {
     return (
         <BasicView>
-            <div>Login</div>
+            <div>Browse</div>
         </BasicView>
     )
 }

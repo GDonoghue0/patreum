@@ -1,5 +1,5 @@
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import {HomeView, LoginView} from './views';
+import {HomeView, BrowseView} from './views';
 import Header from './components/Header/index'
 
 export function AppRoutes() {
@@ -8,7 +8,7 @@ export function AppRoutes() {
             <Header></Header>
             <Routes>
                 <Route path='/' element = {<HomeView/>} />
-                <Route path='/login' element = {<LoginView/>} />
+                <Route path='/browse' element = {<BrowseView/>} />
             </Routes>
         </Router>
     );
