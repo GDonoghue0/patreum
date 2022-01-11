@@ -4,20 +4,15 @@ import { useState } from 'react';
 import { initializeConnector } from '@web3-react/core'
 import { MetaMask } from '@web3-react/metamask'
 import { useMatch } from "react-router-dom";
+import HeaderLogo from "./HeaderLogo";
 import Status from '../Wallet/'
-
-// import {ReactComponent as Logo} from "../logo.svg";
 
 const HeaderContainer = styled.div<{isMenuOpen: boolean}>`
   height: ${({theme}) => theme.header.height}px;
-  background-color: ${({ theme }) => theme.colors.bg5};
   position: sticky;
-  display: grid;
-  grid-template-columns: 120px 0.5fr 120px;
-  align-items: center;
-  justify-content: center;
   top: 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
   @media (max-width: ${768}px) {
     padding: 16px 24px;
     border-bottom: none;
@@ -101,8 +96,23 @@ const HeaderAbsoluteContainer = styled.div`
   }
 `;
 
+const HeaderButtonContainer = styled.div`
+  display: flex;
+  margin-right: 8px;
+  z-index: 1;
+`;
+
 const LinksContainer = styled.div`
   display: flex;
+`;
+
+const LogoContainer = styled.div`
+  padding-left: 40px;
+  margin-right: auto;
+  z-index: 1000;
+  @media (max-width: ${({ theme }) => theme.sizes.lg}px) {
+    padding-left: 0;
+  }
 `;
 
 const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions));
@@ -112,6 +122,7 @@ export default function Header() {
   const home = useMatch({ path: "/"});
   const browse = useMatch({ path: "/browse"});
   const other = useMatch({ path: "/other"});
+  const active = hooks.useIsActive();
 
   const onToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -138,7 +149,11 @@ export default function Header() {
 
   return (
     <HeaderContainer isMenuOpen={isMenuOpen} className="d-flex align-items-center">
-      {/* LINKS */}
+
+      <LogoContainer>
+        <HeaderLogo />
+      </LogoContainer>
+
       <HeaderAbsoluteContainer>
         <LinksContainer>
           {renderLinkItem("Home", "/", Boolean(home))}
@@ -146,6 +161,18 @@ export default function Header() {
           {renderLinkItem("Other", "/other", Boolean(other))}
         </LinksContainer>
       </HeaderAbsoluteContainer>
+
+      {active && (
+        <HeaderButtonContainer>
+          {"Network Button"}
+        </HeaderButtonContainer>
+      )}
+
+      {active && (
+        <HeaderButtonContainer>
+          {"Balance?"}
+        </HeaderButtonContainer>
+      )}
 
       <Status connector={metaMask} hooks={hooks}/>
 
