@@ -80,7 +80,7 @@ function Accounts({
     <div>
       <b>{ENSNames?.[0] ?? accounts?.[0]}</b>
       <br/>
-      {balances?.[0] ? ` (Ξ${formatEther(balances[0])})` : null}
+      {balances?.[0] ? `(Ξ${formatEther(balances[0]).slice(0,6)})` : null}
     </div>
   )
 }
