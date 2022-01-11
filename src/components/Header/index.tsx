@@ -12,6 +12,8 @@ const HeaderContainer = styled.div<{isMenuOpen: boolean}>`
   position: sticky;
   top: 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  display: flex;
+  align-items: center;
 
   @media (max-width: ${768}px) {
     padding: 16px 24px;
@@ -151,7 +153,7 @@ export default function Header() {
     <HeaderContainer isMenuOpen={isMenuOpen} className="d-flex align-items-center">
 
       <LogoContainer>
-        <HeaderLogo />
+        {/*<HeaderLogo />*/}
       </LogoContainer>
 
       <HeaderAbsoluteContainer>

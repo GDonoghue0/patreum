@@ -5,7 +5,7 @@ import Header from './components/Header/index'
 export function AppRoutes() {
     return (
         <Router>
-            <Header></Header>
+            <Header/>
             <Routes>
                 <Route path='/' element = {<HomeView/>} />
                 <Route path='/browse' element = {<BrowseView/>} />
