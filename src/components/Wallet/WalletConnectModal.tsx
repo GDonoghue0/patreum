@@ -432,10 +432,11 @@ export default function AccountStatus({
       // if (active && connector instanceof WalletConnectConnector)
       //   await connector.close();
 
-      await activateWeb3(MetaMask);
+      // await activateWeb3(MetaMask);
+      connector.activate();
       setConnectingConnector(undefined);
     },
-    [activateWeb3, connector, active]
+    [connector, active]
   );
 
   const renderConnectorButton = useCallback(
