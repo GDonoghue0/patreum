@@ -8,6 +8,8 @@ import type { Connector } from '@web3-react/types'
 import { MetaMask } from '@web3-react/metamask'
 import { AnimatePresence, motion } from "framer";
 
+import { createGlobalState } from "react-hooks-global-state";
+
 
 const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions));
 
@@ -260,6 +262,65 @@ const MenuItemText = styled(Title)`
   }
 `;
 
+// function Web3Status({
+//   connector,
+//   hooks: { useChainId, useAccounts, useENSNames, useError, useIsActive, useProvider },
+// }: {
+//   connector: Connector
+//   hooks: Web3ReactHooks
+// }) {
+//   const accounts = useAccounts();
+//   const error = useError();
+//   const ENSNames = useENSNames();
+
+//   if (accounts) {
+//     return (
+
+//     )
+//   }
+
+// }
+
+interface GlobalStore {
+  // pendingTransactions: PendingTransaction[];
+  showConnectWallet: boolean;
+
+  gasPrice: string;
+  // desktopView: DesktopViewType;
+  // airdropInfo: AirdropInfoData | undefined;
+  // vaultPositionModal: {
+  //   show: boolean;
+  //   vaultOption?: VaultOptions;
+  //   vaultVersion: VaultVersion;
+  // };
+  notificationLastReadTimestamp?: number;
+}
+
+export const initialState: GlobalStore = {
+  // pendingTransactions: [],
+  showConnectWallet: false,
+  gasPrice: "",
+  // desktopView: "grid",
+  // airdropInfo: undefined,
+  // vaultPositionModal: {
+  //   show: false,
+  //   vaultVersion: "v1" as VaultVersion,
+  // },
+  notificationLastReadTimestamp: undefined,
+};
+
+const useConnectWalletModal: () => [
+  boolean,
+  (u: React.SetStateAction<boolean>) => void
+] = () => {
+  const [showConnectWallet, setShowConnectWallet] = useGlobalState(
+    "showConnectWallet"
+  );
+  return [showConnectWallet, setShowConnectWallet];
+};
+
+export const { useGlobalState } = createGlobalState(initialState);
+
 
 export default function AccountStatus({
   connector,
@@ -275,10 +336,12 @@ export default function AccountStatus({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const account = accounts?.[0];
   const ensData = ENSNames?.[0];
+  const [, setShowConnectModal] = useConnectWalletModal();
 
-  const onToggleMenu = useCallback(() => {
+
+  const onToggleMenu = () => {
     setIsMenuOpen((open) => !open);
-  }, []);
+  };
 
   const handleButtonClick = useCallback(async () => {
     if (active) {
@@ -286,8 +349,8 @@ export default function AccountStatus({
       return;
     }
 
-    //setShowConnectModal(true);
-  }, [active, onToggleMenu]);//, setShowConnectModal]);
+    setShowConnectModal(true);
+  }, [active, onToggleMenu, setShowConnectModal]);
 
   const renderButtonContent = () => 
     active && account ? (
