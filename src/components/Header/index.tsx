@@ -5,7 +5,7 @@ import { initializeConnector } from '@web3-react/core'
 import { MetaMask } from '@web3-react/metamask'
 import { useMatch } from "react-router-dom";
 import HeaderLogo from "./HeaderLogo";
-import Status from '../Wallet/'
+import AccountStatus from '../Wallet/'
 
 const HeaderContainer = styled.div<{isMenuOpen: boolean}>`
   height: ${({theme}) => theme.header.height}px;
@@ -54,7 +54,7 @@ const NavItem = styled.div<{isSelected: boolean}>`
   height: 100%;
   opacity: ${(props) => (props.isSelected ? "1" : "0.48")};
   &:hover {
-    opacity: ${(props) => (props.isSelected ? "0.7" : "1")};
+    opacity: ${(props) => (props.isSelected ? "0.7" : "1")}; // 0.7 --> theme.hover.opacity
   }
   @media (max-width: ${({ theme }) => theme.sizes.lg }px) {
     padding: 0px 0px 40px 48px;
@@ -74,8 +74,7 @@ export const Title = styled.span<{
   text-transform: uppercase;
   ${(props) => (props.fontSize ? `font-size: ${props.fontSize}px;` : ``)}
   ${(props) => (props.lineHeight ? `line-height: ${props.lineHeight}px;` : ``)}
-  ${(props) =>
-    props.letterSpacing ? `letter-spacing: ${props.letterSpacing}px;` : ""}
+  ${(props) => props.letterSpacing ? `letter-spacing: ${props.letterSpacing}px;` : ""}
 `;
 
 const NavLinkText = styled(Title)`
@@ -83,7 +82,7 @@ const NavLinkText = styled(Title)`
   font-size: 14px;
   line-height: 20px;
   @media (max-width: ${({ theme }) => theme.sizes.lg }px) {
-    font-size: 24px;
+    font-size: 14px;
   }
 `;
 
@@ -93,7 +92,7 @@ const HeaderAbsoluteContainer = styled.div`
   height: 100%;
   width: 100%;
   justify-content: center;
-  @media (max-width: ${({ theme }) => theme.sizes.lg}px) {
+  @media (max-width: ${({ theme }) => theme.sizes.md}px) {
     display: none;
   }
 `;
@@ -176,7 +175,8 @@ export default function Header() {
         </HeaderButtonContainer>
       )}
 
-      <Status connector={metaMask} hooks={hooks}/>
+      {/*<Status connector={metaMask} hooks={hooks}/>*/}
+      <AccountStatus connector={metaMask} hooks={hooks}/>
 
     </HeaderContainer>
   );
