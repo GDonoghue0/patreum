@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro'
+import styled, { css } from 'styled-components/macro'
 import { BigNumber } from '@ethersproject/bignumber'
 import { formatEther } from '@ethersproject/units'
 import { useState, useEffect, useCallback } from 'react'
@@ -6,6 +6,8 @@ import { Web3ReactHooks } from '@web3-react/core'
 import { initializeConnector } from '@web3-react/core'
 import type { Connector } from '@web3-react/types'
 import { MetaMask } from '@web3-react/metamask'
+import { AnimatePresence, motion } from "framer";
+
 
 const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions));
 
@@ -85,58 +87,6 @@ function Status({
   )
 }
 
-const colors = {
-  background: {
-    one: "#030309",
-    two: "#121218",
-    three: "#1C1C22",
-    four: "#26262B",
-  },
-  borderDark: "#1F1F1F",
-  border: "#1C1C22",
-  borderLight: "#2E2C2B",
-  text: "#ACACAB",
-  primaryText: "#FFFFFF",
-  quaternaryText: "#3F3F44",
-  green: "#16CEB9",
-  red: "#fc0a54",
-  pillBackground: "#151413",
-  tagBackground: "#1D222D",
-  products: {
-    yield: "#FF385C",
-    volatility: "#FF9000",
-    principalProtection: "#79FFCB",
-    capitalAccumulation: "#729DED",
-  },
-  buttons: {
-    primary: "#fc0a54",
-    error: "rgba(252, 10, 84, 0.16)",
-    secondaryBackground: "rgba(22, 206, 185, 0.08)",
-    secondaryText: "#16ceb9",
-  },
-  vaultActivity: {
-    sales: "#16ceb9",
-    minting: "#729ded",
-  },
-  brands: {
-    opyn: "#6FC0A2",
-    hegic: "#45FFF4",
-    charm: "#5A67D8",
-    discord: "#5A65EA",
-    primitive: "#FFFFFF",
-  },
-  asset: {
-    WETH: "#627EEA",
-    WBTC: "#E39652",
-    USDC: "#3E73C4",
-    yvUSDC: "#3E73C4",
-    stETH: "#00A3FF",
-    AAVE: "#2EBAC6",
-    WAVAX: "#E84142",
-    PERP: "#00BC9A",
-  },
-};
-
 interface AccountStatusVariantProps {
   showInvestButton?: boolean;
 }
@@ -176,7 +126,7 @@ const Container = styled.div<{ connected: boolean }>`
   border-radius: 4px;
   margin-right: 8px;
   overflow: hidden;
-  background-color: ${(props) => (props.connected ? colors.green : colors.red)};
+  ${({ connected }) => css`${({ theme }) => connected ? theme.colors.green : theme.colors.red}`}
 `;
 
 interface IndicatorProps {
@@ -225,8 +175,11 @@ const WalletContainer = styled.div<AccountStatusVariantProps>`
   }
 `;
 
-const WalletButton = styled(BaseButton)<WalletButtonProps>`
-  background-color: ${(props) => props.connected ? colors.background.two : `${colors.green}14`};
+const WalletButton = styled(BaseButton)<{ connected: boolean }>`
+  ${({ connected }) =>
+    css`
+      background-color: ${({ theme }) => connected ? theme.background.two : `${theme.colors.green}14`};
+  `}
   align-items: center;
   height: fit-content;
   &:hover {
@@ -234,7 +187,7 @@ const WalletButton = styled(BaseButton)<WalletButtonProps>`
   }
 `;
 
-const WalletButtonText = styled(Title)<WalletStatusProps>`
+const WalletButtonText = styled(Title)<{ connected: boolean }>`
   font-size: 14px;
   line-height: 20px;
   @media (max-width: ${({ theme }) => theme.sizes.md}px) {
@@ -243,10 +196,68 @@ const WalletButtonText = styled(Title)<WalletStatusProps>`
   @media (max-width: 350px) {
     font-size: 13px;
   }
-  ${(props) => {
-    if (props.connected) return null;
-    return `color: ${colors.green}`;
+  ${(connected) => {
+    if (connected) return null;
+    return css`color: ${({ theme }) => theme.colors.green}`;
   }}
+`;
+
+interface MenuStateProps {
+  isMenuOpen: boolean;
+}
+
+const WalletMenu = styled(motion.div)<MenuStateProps>`
+  ${(props) =>
+    props.isMenuOpen
+      ? css`
+          position: absolute;
+          right: 40px;
+          top: 64px;
+          width: fit-content;
+          background-color: ${({ theme }) => theme.colors.background.two};
+          border-radius: ${8}px;
+        `
+      : `
+          display: none;
+        `}
+  @media (max-width: ${({ theme }) => theme.sizes.md}px) {
+    display: none;
+  }
+`;
+
+const MenuItem = styled.div`
+  padding: 8px 16px;
+  padding-right: 38px;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  &:first-child {
+    padding-top: 16px;
+  }
+  &:last-child {
+    padding-bottom: 16px;
+  }
+  &:hover {
+    span {
+      color: ${({ theme }) => theme.colors.primaryText};
+    }
+  }
+  @media (max-width: ${({ theme }) => theme.sizes.md}px) {
+    margin: unset;
+    && {
+      padding: 28px;
+    }
+  }
+`;
+
+const MenuItemText = styled(Title)`
+  color: ${({ theme }) => theme.colors.primaryText}A3;
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 20px;
+  @media (max-width: ${({ theme }) => theme.sizes.md}px) {
+    font-size: 24px;
+  }
 `;
 
 
@@ -291,19 +302,56 @@ export default function AccountStatus({
       <WalletButtonText connected={active}>CONNECT WALLET</WalletButtonText>
     );
 
+  const renderMenuItem = (
+    title: string,
+    onClick?: () => void,
+    extra?: React.ReactNode
+  ) => {
+    return (
+      <MenuItem onClick={onClick} role="button">
+        <MenuItemText>{title}</MenuItemText>
+        {extra}
+      </MenuItem>
+    );
+  };
+
 
   return (
     <AccountStatusContainer>
       <WalletContainer>
-         <WalletButton
-          //variant={variant}
-          //showInvestButton={vault !== undefined}
-          connected={active}
-          role="button"
-          onClick={handleButtonClick}
-        >
+         <WalletButton connected={active} role="button" onClick={handleButtonClick}>
           {renderButtonContent()}
         </WalletButton>
+        <AnimatePresence>
+          <WalletMenu
+            key={isMenuOpen.toString()}
+            isMenuOpen={isMenuOpen}
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: 20,
+            }}
+            transition={{
+              type: "keyframes",
+              duration: 0.2,
+            }}
+          >
+            {/*renderMenuItem(
+              copyState === "hidden" ? "COPY ADDRESS" : "ADDRESS COPIED",
+              handleCopyAddress,
+              renderCopiedButton()
+            )*/}
+            {renderMenuItem("Menu Item One")}
+            {renderMenuItem("Menu Item Two")}
+          </WalletMenu>
+        </AnimatePresence>
       </WalletContainer>
     </AccountStatusContainer>
   );
