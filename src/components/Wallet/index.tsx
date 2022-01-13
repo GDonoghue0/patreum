@@ -348,6 +348,7 @@ export default function AccountStatus({
       onToggleMenu();
       return;
     }
+    console.log('HERE')
 
     setShowConnectModal(true);
   }, [active, onToggleMenu, setShowConnectModal]);

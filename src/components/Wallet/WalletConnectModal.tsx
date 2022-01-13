@@ -131,7 +131,7 @@ interface GlobalStore {
 
 export const initialState: GlobalStore = {
   // pendingTransactions: [],
-  showConnectWallet: false,
+  showConnectWallet: true,
   gasPrice: "",
   // desktopView: "grid",
   // airdropInfo: undefined,
