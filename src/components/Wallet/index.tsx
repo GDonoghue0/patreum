@@ -349,6 +349,7 @@ export default function AccountStatus({
       return;
     }
     console.log('HERE')
+    console.log(useGlobalState)
 
     setShowConnectModal(true);
   }, [active, onToggleMenu, setShowConnectModal]);
