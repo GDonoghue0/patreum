@@ -158,7 +158,7 @@ export const BaseButton = styled.div`
 const ConnectorButton = styled(BaseButton)<ConnectorButtonProps>`
   background-color: ${({ theme }) => theme.colors.background.three};
   align-items: center;
-  width: 100%;
+  width: 75%;
   &:hover {
     opacity: ${({ theme }) => theme.hover.opacity};
   }
@@ -383,6 +383,7 @@ export const Title = styled.span<{
 
 const ConnectorButtonText = styled(Title)`
   margin-left: 16px;
+  color: grey;
 `;
 
 const IndicatorContainer = styled.div`
@@ -459,7 +460,7 @@ export const BasicModal: React.FC<BasicModalProps> = ({
       {/* Close Button */}
       {closeButton && (
         <CloseButton role="button" onClick={onClose}>
-          <MenuButton isOpen onToggle={onClose} size={20} color="#FFFFFFA3" />
+          <MenuButton isOpen onToggle={onClose} size={20} color="#000000A3" />
         </CloseButton>
       )}
     </BaseModalHeader>
