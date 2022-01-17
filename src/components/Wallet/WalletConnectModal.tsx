@@ -362,9 +362,7 @@ export default function AccountStatus({
 
 
   const onClose = useCallback(() => {
-    console.log('A = ', showConnectModal)
     setShowConnectModal(false);
-    console.log('B = ', showConnectModal)
   }, [setShowConnectModal]);
 
   const getConnectorStatus = useCallback(
