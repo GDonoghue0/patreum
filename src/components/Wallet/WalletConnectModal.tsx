@@ -277,7 +277,7 @@ const Indicator = ({ connected }: IndicatorProps) => (
 interface BasicModalProps {
   show: boolean;
   height: number;
-  maxWidth?: number;
+  maxwidth?: number;
   onClose: () => void;
   closeButton?: boolean;
   backButton?: {
@@ -286,32 +286,32 @@ interface BasicModalProps {
   children: JSX.Element;
   animationProps?: HTMLMotionProps<"div"> & RefAttributes<HTMLDivElement>;
   headerBackground?: boolean;
-  backgroundColor?: string;
+  backgroundcolor?: string;
   theme?: string;
 }
 
 export const BasicModal: React.FC<BasicModalProps> = ({
   show,
   height,
-  maxWidth = 343,
+  maxwidth = 343,
   onClose,
   closeButton = true,
   backButton,
   children,
   animationProps = {},
   headerBackground = false,
-  backgroundColor,
+  backgroundcolor,
   theme,
 }) => (
   <StyledModal
     show={show}
     centered
     height={height}
-    maxWidth={maxWidth}
+    maxwidth={maxwidth}
     onHide={onClose}
     backdrop
     theme={theme}
-    backgroundColor={backgroundColor}
+    backgroundcolor={backgroundcolor}
   >
     <BaseModalHeader>
       {/* Back button */}
@@ -428,7 +428,7 @@ export default function AccountStatus({
   );
 
   return (
-    <BasicModal show={showConnectModal} onClose={onClose} height={354} maxWidth={500}>
+    <BasicModal show={showConnectModal} onClose={onClose} height={354} maxwidth={500}>
       <>
         <BaseModalContentColumn marginTop={8}>
           <Title>CONNECT WALLET</Title>
