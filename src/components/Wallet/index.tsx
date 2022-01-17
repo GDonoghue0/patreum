@@ -191,6 +191,7 @@ const WalletButton = styled(BaseButton)<{ connected: boolean }>`
 const WalletButtonText = styled(Title)<{ connected: boolean }>`
   font-size: 14px;
   line-height: 20px;
+  color: red;
   @media (max-width: ${({ theme }) => theme.sizes.md}px) {
     font-size: 16px;
   }
@@ -282,7 +283,7 @@ const MenuItemText = styled(Title)`
 
 export default function AccountStatus({
   connector,
-  hooks: { useChainId, useAccounts, useENSNames, useError, useIsActive, useProvider },
+  hooks: { useChainId, useAccounts, useENSNames, useError, useIsActive, useProvider, useIsActivating },
 }: {
   connector: Connector
   hooks: Web3ReactHooks
@@ -296,6 +297,9 @@ export default function AccountStatus({
   const ensData = ENSNames?.[0];
   const [, setShowConnectModal] = useConnectWalletModal();
 
+  const chainId = useChainId()
+  const activating = useIsActivating()
+  const error = useError()
 
   const onToggleMenu = () => {
     setIsMenuOpen((open) => !open);

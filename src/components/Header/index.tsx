@@ -169,11 +169,11 @@ export default function Header() {
         </HeaderButtonContainer>
       )}
 
-      {active && (
+      {/*active && (
         <HeaderButtonContainer>
           {"Balance?"}
         </HeaderButtonContainer>
-      )}
+      )/*}
 
       {/*<Status connector={metaMask} hooks={hooks}/>*/}
       <AccountStatus connector={metaMask} hooks={hooks}/>
