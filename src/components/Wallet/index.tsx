@@ -7,8 +7,7 @@ import { initializeConnector } from '@web3-react/core'
 import type { Connector } from '@web3-react/types'
 import { MetaMask } from '@web3-react/metamask'
 import { AnimatePresence, motion } from "framer";
-
-import { createGlobalState } from "react-hooks-global-state";
+import useConnectWalletModal from "../../hooks/useConnectWalletModal"
 
 
 const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions));
@@ -281,47 +280,6 @@ const MenuItemText = styled(Title)`
 
 // }
 
-interface GlobalStore {
-  // pendingTransactions: PendingTransaction[];
-  showConnectWallet: boolean;
-
-  gasPrice: string;
-  // desktopView: DesktopViewType;
-  // airdropInfo: AirdropInfoData | undefined;
-  // vaultPositionModal: {
-  //   show: boolean;
-  //   vaultOption?: VaultOptions;
-  //   vaultVersion: VaultVersion;
-  // };
-  notificationLastReadTimestamp?: number;
-}
-
-export const initialState: GlobalStore = {
-  // pendingTransactions: [],
-  showConnectWallet: false,
-  gasPrice: "",
-  // desktopView: "grid",
-  // airdropInfo: undefined,
-  // vaultPositionModal: {
-  //   show: false,
-  //   vaultVersion: "v1" as VaultVersion,
-  // },
-  notificationLastReadTimestamp: undefined,
-};
-
-const useConnectWalletModal: () => [
-  boolean,
-  (u: React.SetStateAction<boolean>) => void
-] = () => {
-  const [showConnectWallet, setShowConnectWallet] = useGlobalState(
-    "showConnectWallet"
-  );
-  return [showConnectWallet, setShowConnectWallet];
-};
-
-export const { useGlobalState } = createGlobalState(initialState);
-
-
 export default function AccountStatus({
   connector,
   hooks: { useChainId, useAccounts, useENSNames, useError, useIsActive, useProvider },
@@ -349,7 +307,6 @@ export default function AccountStatus({
       return;
     }
     console.log('HERE')
-    console.log(useGlobalState)
 
     setShowConnectModal(true);
   }, [active, onToggleMenu, setShowConnectModal]);

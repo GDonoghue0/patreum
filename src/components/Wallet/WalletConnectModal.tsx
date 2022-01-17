@@ -8,6 +8,7 @@ import { MetaMask } from '@web3-react/metamask'
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 import { Modal as BootstrapModal } from "react-bootstrap";
 import { createGlobalState } from "react-hooks-global-state";
+import useConnectWalletModal from '../../hooks/useConnectWalletModal'
 
 interface ConnectorButtonProps {
   status: "normal" | "initializing" | "neglected" | "connected";
@@ -113,46 +114,6 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     <LineBottom size={size} isOpen={isOpen} color={color} />
   </MenuButtonContainer>
 );
-
-interface GlobalStore {
-  // pendingTransactions: PendingTransaction[];
-  showConnectWallet: boolean;
-
-  gasPrice: string;
-  // desktopView: DesktopViewType;
-  // airdropInfo: AirdropInfoData | undefined;
-  // vaultPositionModal: {
-  //   show: boolean;
-  //   vaultOption?: VaultOptions;
-  //   vaultVersion: VaultVersion;
-  // };
-  notificationLastReadTimestamp?: number;
-}
-
-export const initialState: GlobalStore = {
-  // pendingTransactions: [],
-  showConnectWallet: true,
-  gasPrice: "",
-  // desktopView: "grid",
-  // airdropInfo: undefined,
-  // vaultPositionModal: {
-  //   show: false,
-  //   vaultVersion: "v1" as VaultVersion,
-  // },
-  notificationLastReadTimestamp: undefined,
-};
-
-const useConnectWalletModal: () => [
-  boolean,
-  (u: React.SetStateAction<boolean>) => void
-] = () => {
-  const [showConnectWallet, setShowConnectWallet] = useGlobalState(
-    "showConnectWallet"
-  );
-  return [showConnectWallet, setShowConnectWallet];
-};
-
-export const { useGlobalState } = createGlobalState(initialState);
 
 export const BaseModal = styled(BootstrapModal)<{ backgroundColor?: string }>`
   backdrop-filter: blur(80px);
@@ -395,15 +356,16 @@ export default function AccountStatus({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const account = accounts?.[0];
   const ensData = ENSNames?.[0];
-  const [, setShowConnectModal] = useConnectWalletModal();
 
-  const [show, setShow] = useConnectWalletModal();
+  const [showConnectModal, setShowConnectModal] = useConnectWalletModal();
   const [connectingConnector, setConnectingConnector] = useState<connectorType>();
 
 
   const onClose = useCallback(() => {
-    setShow(false);
-  }, [setShow]);
+    console.log('A = ', showConnectModal)
+    setShowConnectModal(false);
+    console.log('B = ', showConnectModal)
+  }, [setShowConnectModal]);
 
   const getConnectorStatus = useCallback(
     (connectorType: connectorType) => {
@@ -468,7 +430,7 @@ export default function AccountStatus({
   );
 
   return (
-    <BasicModal show={show} onClose={onClose} height={354} maxWidth={500}>
+    <BasicModal show={showConnectModal} onClose={onClose} height={354} maxWidth={500}>
       <>
         <BaseModalContentColumn marginTop={8}>
           <Title>CONNECT WALLET</Title>
