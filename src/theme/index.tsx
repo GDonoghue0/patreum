@@ -89,8 +89,8 @@ function theme(darkMode: boolean): DefaultTheme {
       green: "#16CEB9",
       red: "#fc0a54",
       grey: "#808080",
-      black: "#FFFFFF",
-      white: "#000000",
+      black: "#000000",
+      white: "#FFFFFF",
       pillBackground: "#151413",
       tagBackground: "#1D222D",
       products: {

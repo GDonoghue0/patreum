@@ -79,7 +79,7 @@ const WalletButtonText = styled(Title)<{ connected: boolean }>`
   }
   ${({ connected }) =>
     css`
-      color: ${({ theme }) => connected ? theme.colors.grey : `${theme.colors.black}14`};
+      color: ${({ theme }) => connected ? theme.colors.grey : theme.colors.black};
   `}
 `;
 
