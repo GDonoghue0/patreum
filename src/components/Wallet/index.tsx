@@ -8,85 +8,9 @@ import type { Connector } from '@web3-react/types'
 import { MetaMask } from '@web3-react/metamask'
 import { AnimatePresence, motion } from "framer";
 import useConnectWalletModal from "../../hooks/useConnectWalletModal"
-
+import { Indicator, Title } from '../Common'
 
 const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions));
-
-function useBalances(
-  provider?: ReturnType<Web3ReactHooks['useProvider']>,
-  accounts?: string[]
-): BigNumber[] | undefined {
-  const [balances, setBalances] = useState<BigNumber[] | undefined>()
-
-  useEffect(() => {
-    if (provider && accounts?.length) {
-      let stale = false
-
-      void Promise.all(accounts.map((account) => provider.getBalance(account))).then((balances) => {
-        if (!stale) {
-          setBalances(balances)
-        }
-      })
-
-      return () => {
-        stale = true
-        setBalances(undefined)
-      }
-    }
-  }, [provider, accounts])
-
-  return balances
-}
-
-function Accounts({
-  useAnyNetwork,
-  hooks: { useAccounts, useProvider, useENSNames },
-}: {
-  useAnyNetwork: boolean
-  hooks: Web3ReactHooks
-}) {
-  const provider = useProvider(useAnyNetwork ? 'any' : undefined)
-  const accounts = useAccounts()
-  const ENSNames = useENSNames(provider)
-
-  const balances = useBalances(provider, accounts)
-
-  return (
-    <div>
-      <b>{ENSNames?.[0] ?? accounts?.[0]}</b>
-      <br/>
-      {balances?.[0] ? `(Ξ${formatEther(balances[0]).slice(0,6)})` : null}
-    </div>
-  )
-}
-
-function Status({
-  connector,
-  hooks: { useChainId, useAccounts, useError },
-}: {
-  connector: Connector
-  hooks: Web3ReactHooks
-}) {
-  const chainId = useChainId()
-  const accounts = useAccounts()
-  const error = useError()
-
-  const connected = Boolean(chainId && accounts)
-
-  return (
-    <div>
-      {error ? (
-        <>
-          🛑 {error.name ?? 'Error'}: {error.message}
-        </>
-      ) : connected ? (
-        <Accounts useAnyNetwork={true} hooks={hooks}/>
-      ) : (
-        <>⚠️ Disconnected</>
-      )}
-    </div>
-  )
-}
 
 interface AccountStatusVariantProps {
   showInvestButton?: boolean;
@@ -97,22 +21,6 @@ interface WalletStatusProps {
 }
 
 type WalletButtonProps = AccountStatusVariantProps & WalletStatusProps;
-
-export const Title = styled.span<{
-  color?: string;
-  fontSize?: number;
-  lineHeight?: number;
-  letterSpacing?: number;
-}>`
-  color: ${(props) => (props.color)};
-  font-family: VCR, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  text-transform: uppercase;
-  ${(props) => (props.fontSize ? `font-size: ${props.fontSize}px;` : ``)}
-  ${(props) => (props.lineHeight ? `line-height: ${props.lineHeight}px;` : ``)}
-  ${(props) => props.letterSpacing ? `letter-spacing: ${props.letterSpacing}px;` : ""}
-`;
 
 const BaseButton = styled.div`
   display: flex;
@@ -129,14 +37,6 @@ const Container = styled.div<{ connected: boolean }>`
   overflow: hidden;
   ${({ connected }) => css`${({ theme }) => connected ? theme.colors.green : theme.colors.red}`}
 `;
-
-interface IndicatorProps {
-  connected: boolean;
-}
-
-const Indicator = ({ connected }: IndicatorProps) => (
-  <Container connected={connected} />
-);
 
 export interface ButtonArrowIProps {
   isOpen: boolean;

@@ -29,5 +29,6 @@ export function AppRoutes() {
 
 //TODO:
 // Code is a mess
+// Connecting wallet doesn't always activate
 // Disconnecting wallet should revert to login state
 // Model looks terrible
