@@ -29,6 +29,5 @@ export function AppRoutes() {
 
 //TODO:
 // Code is a mess
-// Connecting wallet doesn't change login status
-// Pressing connect wallet doesn't change showConnectWallet and display modal
+// Disconnecting wallet should revert to login state
 // Model looks terrible
