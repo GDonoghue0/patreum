@@ -88,6 +88,9 @@ function theme(darkMode: boolean): DefaultTheme {
       quaternaryText: "#3F3F44",
       green: "#16CEB9",
       red: "#fc0a54",
+      grey: "#808080",
+      black: "#FFFFFF",
+      white: "#000000",
       pillBackground: "#151413",
       tagBackground: "#1D222D",
       products: {

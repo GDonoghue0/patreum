@@ -214,7 +214,7 @@ const Container = styled.div<{ connected: boolean }>`
   border-radius: 4px;
   margin-right: 8px;
   overflow: hidden;
-  ${({ connected }) => css`${({ theme }) => connected ? theme.colors.green : theme.colors.red}`}
+  ${({ connected }) => css`background-color: ${({ theme }) => connected ? theme.colors.green : theme.colors.red}`}
 `;
 
 interface IndicatorProps {

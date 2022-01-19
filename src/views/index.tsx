@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const BasicView = styled.div`
+const BasicView = styled.div<{connected?: boolean}>`
     display:flex;
     justify-content:center;
     align-items:center;

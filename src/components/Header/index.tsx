@@ -81,6 +81,7 @@ const NavLinkText = styled(Title)`
   letter-spacing: 1.5px;
   font-size: 14px;
   line-height: 20px;
+  color: black;
   @media (max-width: ${({ theme }) => theme.sizes.lg }px) {
     font-size: 14px;
   }

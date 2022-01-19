@@ -38,26 +38,6 @@ const Container = styled.div<{ connected: boolean }>`
   ${({ connected }) => css`${({ theme }) => connected ? theme.colors.green : theme.colors.red}`}
 `;
 
-export interface ButtonArrowIProps {
-  isOpen: boolean;
-  color?: string;
-  fontSize?: number;
-}
-
-const ButtonArrowI = styled.i<ButtonArrowIProps>`
-  transition: 0.2s all ease-out;
-  transform: ${(props) => (props.isOpen ? "rotate(-180deg)" : "none")};
-  ${(props) => (props.color ? `color: ${props.color};` : "")}
-  ${(props) => (props.fontSize ? `font-size: ${props.fontSize}px` : "")};
-`;
-
-type ButtonArrowProps = React.HTMLAttributes<HTMLImageElement> &
-  ButtonArrowIProps;
-
-const ButtonArrow: React.FC<ButtonArrowProps> = ({ className, ...props }) => (
-  <ButtonArrowI className={`fas fa-chevron-down ${className}`} {...props} />
-);
-
 const AccountStatusContainer = styled.div<AccountStatusVariantProps>`
   flex-wrap: wrap;
   flex-direction: column;
@@ -91,17 +71,16 @@ const WalletButton = styled(BaseButton)<{ connected: boolean }>`
 const WalletButtonText = styled(Title)<{ connected: boolean }>`
   font-size: 14px;
   line-height: 20px;
-  color: red;
   @media (max-width: ${({ theme }) => theme.sizes.md}px) {
     font-size: 16px;
   }
   @media (max-width: 350px) {
     font-size: 13px;
   }
-  ${(connected) => {
-    if (connected) return null;
-    return css`color: ${({ theme }) => theme.colors.green}`;
-  }}
+  ${({ connected }) =>
+    css`
+      color: ${({ theme }) => connected ? theme.colors.grey : `${theme.colors.black}14`};
+  `}
 `;
 
 interface MenuStateProps {
@@ -220,7 +199,6 @@ export default function AccountStatus({
         <Indicator connected={active} />
         <WalletButtonText connected={active}>
           {ensData || (account)}{" "}
-          <ButtonArrow isOpen={isMenuOpen} />
         </WalletButtonText>
       </>
     ) : (
@@ -239,6 +217,10 @@ export default function AccountStatus({
       </MenuItem>
     );
   };
+
+  const exampleFunction = () => {
+    console.log('hello')
+  }
 
 
   return (
@@ -273,7 +255,7 @@ export default function AccountStatus({
               handleCopyAddress,
               renderCopiedButton()
             )*/}
-            {renderMenuItem("Menu Item One")}
+            {renderMenuItem("Menu Item One", exampleFunction)}
             {renderMenuItem("Menu Item Two")}
           </WalletMenu>
         </AnimatePresence>

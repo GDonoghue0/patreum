@@ -123,8 +123,6 @@ export default function AccountStatus({
       active,
       connectingConnector,
       getConnectorStatus,
-      // initializingText,
-      // renderConnectorIcon,
       handleConnect,
     ]
   );
