@@ -2,9 +2,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {HomeView, BrowseView, OtherView} from './views';
 import Header from './components/Header/index'
 import WalletConnectModal from './components/Wallet/WalletConnectModal'
-import { Web3ReactHooks } from '@web3-react/core'
 import { initializeConnector } from '@web3-react/core'
-import type { Connector } from '@web3-react/types'
 import { MetaMask } from '@web3-react/metamask'
 
 const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions));
@@ -31,4 +29,5 @@ export function AppRoutes() {
 // Code is a mess
 // Connecting wallet doesn't always activate
 // Disconnecting wallet should revert to login state
-// Model looks terrible
+// Disconnecting doesn't work for now, wait for web3-react update, or something?
+// Display some ETH stuff on the HOME page, or call a smart contract
