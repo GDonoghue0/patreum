@@ -1,9 +1,9 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 const BasicView = styled.div<{connected?: boolean}>`
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: grid;
+  justify-content: center;
+  align-items: center;
   position: relative;
   top: 50%;
   transform: translateY(650%);
