@@ -57,7 +57,7 @@ const NavItem = styled.div<{isSelected: boolean}>`
     opacity: ${(props) => (props.isSelected ? "0.7" : "1")}; // 0.7 --> theme.hover.opacity
   }
   @media (max-width: ${({ theme }) => theme.sizes.lg }px) {
-    padding: 0px 0px 40px 48px;
+    padding: 0px 24px 0px 24px;
   }
 `;
 
