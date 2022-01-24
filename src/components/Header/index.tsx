@@ -6,6 +6,7 @@ import { MetaMask } from '@web3-react/metamask'
 import { useMatch } from "react-router-dom";
 import HeaderLogo from "./HeaderLogo";
 import AccountStatus from '../Wallet/'
+import { Title } from '../Common'
 
 const HeaderContainer = styled.div<{isMenuOpen: boolean}>`
   height: ${({theme}) => theme.header.height}px;
@@ -59,22 +60,6 @@ const NavItem = styled.div<{isSelected: boolean}>`
   @media (max-width: ${({ theme }) => theme.sizes.lg }px) {
     padding: 0px 24px 0px 24px;
   }
-`;
-
-export const Title = styled.span<{
-  color?: string;
-  fontSize?: number;
-  lineHeight?: number;
-  letterSpacing?: number;
-}>`
-  color: ${(props) => (props.color)};
-  font-family: VCR, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  text-transform: uppercase;
-  ${(props) => (props.fontSize ? `font-size: ${props.fontSize}px;` : ``)}
-  ${(props) => (props.lineHeight ? `line-height: ${props.lineHeight}px;` : ``)}
-  ${(props) => props.letterSpacing ? `letter-spacing: ${props.letterSpacing}px;` : ""}
 `;
 
 const NavLinkText = styled(Title)`
