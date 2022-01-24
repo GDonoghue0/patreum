@@ -22,12 +22,6 @@ interface WalletStatusProps {
 
 type WalletButtonProps = AccountStatusVariantProps & WalletStatusProps;
 
-const BaseButton = styled.div`
-  display: flex;
-  border-radius: ${({ theme }) => theme.border.radius};
-  padding: 12px 16px;
-`;
-
 const Container = styled.div<{ connected: boolean }>`
   width: 8px;
   height: 8px;
@@ -56,7 +50,10 @@ const WalletContainer = styled.div<AccountStatusVariantProps>`
   }
 `;
 
-const WalletButton = styled(BaseButton)<{ connected: boolean }>`
+const WalletButton = styled.div<{ connected: boolean }>`
+  display: flex;
+  border-radius: ${({ theme }) => theme.border.radius};
+  padding: 12px 16px;
   ${({ connected }) =>
     css`
       background-color: ${({ theme }) => connected ? theme.background.two : `${theme.colors.green}14`};

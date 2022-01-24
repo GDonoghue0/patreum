@@ -39,18 +39,41 @@ const ExampleCard = styled.div`
   border-width: 1px;
   border-color: black;
   justify-content: center;
+  display: grid;
+`
+
+const ExampleInput = styled.input`
+  max-width: 80px;
+  margin: 20px;
+  padding: 10px;
+  background-color: #667285;
+  border-radius: 8px;
 `
 
 const ExampleButton = styled.div`
-  margin: 20px;
-`
+  border-radius: ${({ theme }) => theme.border.radius};
+  padding: 12px 16px;
+  background-color: #667285;
+  align-items: center;
+  height: fit-content;
+  text-align: center;
+  &:hover {
+    opacity: ${({ theme }) => theme.hover.opacity};
+  }
+`;
+
+const handleClick = () => {
+  console.log("Clicked")
+}
 
 export const HomeView = () => {
   return (
     <BasicView>
       <ExampleCard>
-        {"Home"}
-        <ExampleButton role="button"/>
+        <ExampleButton role="button" onClick={handleClick}>
+        {"Example Button"}
+        </ExampleButton>
+        <ExampleInput/>
       </ExampleCard>
     </BasicView>
   )
