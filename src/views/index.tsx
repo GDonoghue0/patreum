@@ -62,8 +62,80 @@ const ExampleButton = styled.div`
   }
 `;
 
+export const BaseInputLabel = styled.div`
+  font-family: VCR, sans-serif;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 1.5px;
+`;
+
+export const BaseInputContainer = styled.div<{ error?: boolean }>`
+  position: relative;
+  width: 100%;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  margin-top: 8px;
+  padding: 0 4px;
+  border: ${({ theme }) => theme.border.width} ${({ theme }) => theme.border.style}
+    ${(props) => (props.error ? ({ theme }) => theme.colors.red : `transparent`)};
+  transition: border 0.25s;
+`;
+
+export const BaseInput = styled.input<{
+  inputWidth?: string;
+  fontSize?: number;
+  lineHeight?: number;
+}>`
+  width: ${(props) => props.inputWidth || "80%"};
+  height: 100%;
+  font-size: ${(props) => props.fontSize || 40}px;
+  line-height: ${(props) => props.lineHeight || 64}px;
+  color: ${({ theme }) => theme.colors.primaryText};
+  color: black;
+  border: none;
+  background: none;
+  font-family: VCR, sans-serif;
+  &:focus {
+    color: ${({ theme }) => theme.colors.primaryText};
+    color: black;
+    background: none;
+    border: none;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    border: rgba(255, 255, 255, 0);
+  }
+`;
+
+export const BaseInputButton = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translate(-16px, -50%);
+  right: 0;
+  background: ${({ theme }) => theme.colors.background.four};
+  color: ${({ theme }) => theme.colors.primaryText};
+  border-radius: 4px;
+  padding: 8px;
+  height: 32px;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  font-family: VCR, sans-serif;
+`;
+
 const handleClick = () => {
   console.log("Clicked")
+}
+
+const handleChange = (e: any) => {
+   const rawInput = e.target.value;
+  console.log(rawInput)
+}
+
+const handleSubmit = (e: any) => {
+  e.preventDefault();
 }
 
 export const HomeView = () => {
@@ -75,6 +147,19 @@ export const HomeView = () => {
         </ExampleButton>
         <ExampleInput/>
       </ExampleCard>
+      <form onSubmit={handleSubmit}>
+      <label>
+          Input:
+          <textarea onChange={handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      {/*<BaseInputLabel>AMOUNT</BaseInputLabel>*/}
+      {/*<BaseInputContainer>*/}
+        {/*<BaseInput/>*/}
+        {/*{"renderDepositAssetButton"}*/}
+          {/*<BaseInputButton onClick={handleMaxClick}>MAX</BaseInputButton>*/}
+      {/*</BaseInputContainer>*/}
+      </form>
     </BasicView>
   )
 }
