@@ -1,4 +1,5 @@
-import styled from 'styled-components/macro'
+import styled from 'styled-components/macro';
+import {useState} from 'react';
 
 const BasicView = styled.div<{connected?: boolean}>`
   display: grid;
@@ -34,7 +35,7 @@ const ExampleCard = styled.div`
   width: 400px;
   height: 200px;
   top: 10px;
-  position: relative;
+  // position: relative;
   border: solid;
   border-width: 1px;
   border-color: black;
@@ -125,20 +126,38 @@ export const BaseInputButton = styled.div`
   font-family: VCR, sans-serif;
 `;
 
-const handleClick = () => {
-  console.log("Clicked")
-}
-
-const handleChange = (e: any) => {
-   const rawInput = e.target.value;
-  console.log(rawInput)
-}
-
-const handleSubmit = (e: any) => {
-  e.preventDefault();
-}
-
 export const HomeView = () => {
+  const [value, setValue] = useState("defualt")
+
+  const handleClick = () => {
+    console.log("Clicked")
+  }
+
+  const handleChange = (e: any) => {
+    const rawInput = e.target.value;
+    setValue(rawInput);
+    console.log(value);
+    e.preventDefault();
+  }
+
+  const handleSubmit = (e: any) => {
+    const rawInput = e.target.value;
+    setValue(rawInput);
+    console.log(value);
+    e.preventDefault();
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawInput = e.target.value;
+    setValue(rawInput);
+  }
+
+  const exampleFunction = () => {
+    console.log(value);
+  }
+
+  const inputAmount = 0;
+
   return (
     <BasicView>
       <ExampleCard>
@@ -148,18 +167,27 @@ export const HomeView = () => {
         <ExampleInput/>
       </ExampleCard>
       <form onSubmit={handleSubmit}>
-      <label>
-          Input:
-          <textarea onChange={handleChange} />
-        </label>
+        <textarea onChange={handleChange} />
         <input type="submit" value="Submit" />
-      {/*<BaseInputLabel>AMOUNT</BaseInputLabel>*/}
-      {/*<BaseInputContainer>*/}
-        {/*<BaseInput/>*/}
-        {/*{"renderDepositAssetButton"}*/}
-          {/*<BaseInputButton onClick={handleMaxClick}>MAX</BaseInputButton>*/}
-      {/*</BaseInputContainer>*/}
       </form>
+      <BaseInputLabel>AMOUNT</BaseInputLabel>
+      <BaseInputContainer>
+        <BaseInput
+
+
+
+        />
+          {/*// type="number"
+          // // className="form-control"
+          // // aria-label="ETH"
+          // // placeholder="0"
+          // value={inputAmount}
+          // onChange={handleInputChange}
+          // inputWidth={"80%"}*/}
+        {/*/>*/}
+        <BaseInputButton onClick={handleSubmit}>MAX</BaseInputButton>
+      </BaseInputContainer>
+      <button onClick={exampleFunction}/>
     </BasicView>
   )
 }
