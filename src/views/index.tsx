@@ -127,7 +127,7 @@ export const BaseInputButton = styled.div`
 `;
 
 export const HomeView = () => {
-  const [value, setValue] = useState("defualt")
+  const [value, setValue] = useState("default")
 
   const handleClick = () => {
     console.log("Clicked")
@@ -173,9 +173,8 @@ export const HomeView = () => {
       <BaseInputLabel>AMOUNT</BaseInputLabel>
       <BaseInputContainer>
         <BaseInput
-
-
-
+          value = {value}
+          onChange = {handleInputChange}
         />
           {/*// type="number"
           // // className="form-control"
