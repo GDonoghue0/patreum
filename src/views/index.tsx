@@ -126,23 +126,16 @@ export const BaseInputButton = styled.div`
   font-family: VCR, sans-serif;
 `;
 
-export const HomeView = () => {
-  const [value, setValue] = useState("default")
+export const HomeView: React.FC = () => {
+  const [value, setValue] = useState("")
 
   const handleClick = () => {
     console.log("Clicked")
   }
 
-  const handleChange = (e: any) => {
-    const rawInput = e.target.value;
-    setValue(rawInput);
-    console.log(value);
-    e.preventDefault();
-  }
-
   const handleSubmit = (e: any) => {
-    const rawInput = e.target.value;
-    setValue(rawInput);
+    // const rawInput = e.target.value;
+    // setValue(rawInput);
     console.log(value);
     e.preventDefault();
   }
@@ -152,12 +145,6 @@ export const HomeView = () => {
     setValue(rawInput);
   }
 
-  const exampleFunction = () => {
-    console.log(value);
-  }
-
-  const inputAmount = 0;
-
   return (
     <BasicView>
       <ExampleCard>
@@ -166,13 +153,10 @@ export const HomeView = () => {
         </ExampleButton>
         <ExampleInput/>
       </ExampleCard>
-      <form onSubmit={handleSubmit}>
-        <textarea onChange={handleChange} />
-        <input type="submit" value="Submit" />
-      </form>
       <BaseInputLabel>AMOUNT</BaseInputLabel>
       <BaseInputContainer>
         <BaseInput
+          type = "text"
           value = {value}
           onChange = {handleInputChange}
         />
@@ -186,7 +170,6 @@ export const HomeView = () => {
         {/*/>*/}
         <BaseInputButton onClick={handleSubmit}>MAX</BaseInputButton>
       </BaseInputContainer>
-      <button onClick={exampleFunction}/>
     </BasicView>
   )
 }
