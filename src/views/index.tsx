@@ -134,8 +134,6 @@ export const HomeView: React.FC = () => {
   }
 
   const handleSubmit = (e: any) => {
-    // const rawInput = e.target.value;
-    // setValue(rawInput);
     console.log(value);
     e.preventDefault();
   }
@@ -160,14 +158,6 @@ export const HomeView: React.FC = () => {
           value = {value}
           onChange = {handleInputChange}
         />
-          {/*// type="number"
-          // // className="form-control"
-          // // aria-label="ETH"
-          // // placeholder="0"
-          // value={inputAmount}
-          // onChange={handleInputChange}
-          // inputWidth={"80%"}*/}
-        {/*/>*/}
         <BaseInputButton onClick={handleSubmit}>MAX</BaseInputButton>
       </BaseInputContainer>
     </BasicView>
