@@ -29,8 +29,8 @@ const BasicView = styled.div<{connected?: boolean}>`
 //   }
 // `;
 
-const ExampleCard = styled.div`
-  background-color: #92d9e0;
+const ExampleCard = styled.div<{ color?: string }>`
+  background-color: ${(props) => props.color ?  props.color : "#88db9e"};
   align-items: center;
   width: 400px;
   height: 200px;
@@ -128,6 +128,7 @@ export const BaseInputButton = styled.div`
 
 export const HomeView: React.FC = () => {
   const [value, setValue] = useState("")
+  const [num, setNum] = useState(0)
 
   const handleClick = () => {
     console.log("Clicked")
@@ -145,12 +146,28 @@ export const HomeView: React.FC = () => {
 
   return (
     <BasicView>
-      <ExampleCard>
-        <ExampleButton role="button" onClick={handleClick}>
+      <ExampleCard  color={"#92d9e0"}>
+        <ExampleButton role="button" onClick={handleSubmit}>
         {"Example Button"}
         </ExampleButton>
-        <ExampleInput/>
+        <ExampleInput
+          type = "text"
+          value = {value}
+          onChange = {handleInputChange}
+        />
       </ExampleCard>
+      <br/>
+      <ExampleCard colorflag={false}>
+        <ExampleButton role="button" onClick={handleSubmit}>
+        {"Example Button"}
+        </ExampleButton>
+        <ExampleInput
+          type = "text"
+          value = {value}
+          onChange = {handleInputChange}
+        />
+      </ExampleCard>
+      <br/>
       <BaseInputLabel>AMOUNT</BaseInputLabel>
       <BaseInputContainer>
         <BaseInput

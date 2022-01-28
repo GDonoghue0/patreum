@@ -7,6 +7,8 @@
 
 # testing
 /coverage
+/forge/out
+/forge/cache
 
 # production
 /build
