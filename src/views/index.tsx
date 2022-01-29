@@ -1,6 +1,8 @@
 import styled from 'styled-components/macro';
 import {useState} from 'react';
 
+import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
+
 const BasicView = styled.div<{connected?: boolean}>`
   display: grid;
   justify-content: center;
