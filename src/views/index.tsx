@@ -1,7 +1,8 @@
 import styled from 'styled-components/macro';
 import {useState} from 'react';
 
-import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
+import Greeter from '../artifacts/contracts/Greeter.sol/Greeter.json'
+console.log("Greeter ABI: ", Greeter.abi);
 
 const BasicView = styled.div<{connected?: boolean}>`
   display: grid;
