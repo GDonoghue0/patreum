@@ -157,7 +157,7 @@ export const HomeView: React.FC = () => {
         />
       </ExampleCard>
       <br/>
-      <ExampleCard colorflag={false}>
+      <ExampleCard>
         <ExampleButton role="button" onClick={handleSubmit}>
         {"Example Button"}
         </ExampleButton>

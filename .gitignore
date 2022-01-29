@@ -23,3 +23,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# hardhat
+.env.example
+.eslintignore
+.eslintrc.js
+.npmignore
+.prettierignore
+.solhint.json
+.solhintignore
