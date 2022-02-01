@@ -115,8 +115,6 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // const theme = useTheme();
-
   const renderLinkItem = (
     title: string,
     to: string,

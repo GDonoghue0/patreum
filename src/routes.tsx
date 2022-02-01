@@ -30,4 +30,3 @@ export function AppRoutes() {
 // Connecting wallet doesn't always activate
 // Disconnecting wallet should revert to login state
 // Disconnecting doesn't work for now, wait for web3-react update, or something?
-// Display some ETH stuff on the HOME page, or call a smart contract
