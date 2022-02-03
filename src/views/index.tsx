@@ -201,6 +201,9 @@ export const BrowseView = () => {
     }
   }
 
+  let exampleDate = new Date();
+  console.log(exampleDate);
+
   return (
     <BasicView>
       <button onClick={fetchGreeting}> Fetch Greeting </button>
